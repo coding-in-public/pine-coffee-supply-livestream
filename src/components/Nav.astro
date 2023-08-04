@@ -1,0 +1,112 @@
+---
+import { Icon } from "astro-icon";
+
+const navItems = [
+  {
+    title: "Locations",
+    href: "locations",
+  },
+  {
+    title: "Shop",
+    href: "shop",
+  },
+  {
+    title: "About Us",
+    href: "about-us",
+  },
+  {
+    title: "Wholesale",
+    href: "wholesale",
+  },
+  {
+    title: "Coffee Quiz",
+    href: "coffee-quiz",
+  },
+];
+
+const navIcons = [
+  {
+    icon: "ph:user-bold",
+    href: "account",
+    label: "account",
+  },
+  {
+    icon: "fe:search",
+    href: "search",
+    label: "search",
+  },
+  {
+    icon: "fe:cart",
+    href: "cart",
+    label: "cart",
+  },
+];
+
+import logo from "../assets/images/pine-logomark.png";
+import Image from "astro/components/Image.astro";
+import Link from "./Link.astro";
+---
+
+<p
+  class="bg-pine-accent font-sans text-sm font-normal text-center px-4 py-3 tracking-wide"
+  id="banner"
+>
+  Pinedale: Mon-Sat 7:30-4:30 Sun 8-2 <span class="sm:px-8">—</span> Boise: Mon-Sat
+  8-4
+</p>
+<nav class="grid gap-2 py-2 px-6 sticky top-0 bg-white">
+  <div class="flex justify-between items-start gap-2">
+    <Icon name="fe:bar" width="40" />
+    <Image
+      src={logo}
+      alt="logomark for Pine"
+      format="avif"
+      width={250}
+      class="relative left-8 transition-transform duration-700 self-start"
+      id="logomark"
+    />
+    <div class="flex justify-end items-center gap-2 py-2">
+      {
+        navIcons.map((i) => (
+          <Link style="ghost" href={i.href} aria-label={i.label}>
+            <Icon name={i.icon} width="30" />
+          </Link>
+        ))
+      }
+    </div>
+  </div>
+  <div
+    class="hidden sm:flex items-center justify-center gap-6 transition-opacity"
+    id="nav-links"
+  >
+    {
+      navItems.map((i) => (
+        <Link href={i.href} style="link">
+          {i.title}
+        </Link>
+      ))
+    }
+  </div>
+</nav>
+
+<script>
+  const banner = document.querySelector("#banner") as HTMLParagraphElement;
+  const navLinks = document.querySelector("#nav-links") as HTMLDivElement;
+  const logomark = document.querySelector("#logomark") as HTMLImageElement;
+
+  const bannerObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const isIntersecting = entry.isIntersecting;
+      if (isIntersecting) {
+        navLinks.classList.remove("opacity-0", "hidden");
+        logomark.classList.remove("scale-50");
+      }
+      if (!isIntersecting) {
+        navLinks.classList.add("opacity-0", "hidden");
+        logomark.classList.add("scale-50");
+      }
+    });
+  }, {});
+
+  bannerObs.observe(banner);
+</script>

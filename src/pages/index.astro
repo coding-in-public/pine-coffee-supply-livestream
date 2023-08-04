@@ -1,15 +1,51 @@
 ---
+// styles
+import "../styles/main.css";
+
+// collections
+import { getCollection } from "astro:content";
+const allCoffees = await getCollection("coffees");
+
+// components
+import Heading from "../components/Heading.astro";
+import CoffeeCard from "../components/CoffeeCard.astro";
+import Hero from "../components/Hero.astro";
+import Cta from "../components/Cta.astro";
+import Nav from "../components/Nav.astro";
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <title>Pine Coffee Supply</title>
+  </head>
+  <body class="font-serif font-bold text-pine-text max-w-[2000px] mx-auto">
+    <Nav />
+    <main class="grid gap-6 sm:gap-12 md:gap-20">
+      <Hero />
+      <p class="text-2xl sm:text-4xl text-center max-w-4xl mx-auto container">
+        We are Pine Coffee Supply. We value quality over price, few over many
+        and wow over safe. We roast to bring out and highlight the unique
+        characteristics inherent to each coffee. Join us and share the love.
+      </p>
+      <section class="container" aria-labelledby="coffee-for-sale">
+        <Heading tagType="h2" size="h2" visible={false} id="coffee-for-sale">
+          Coffees for Sale
+        </Heading>
+        <div class="grid gap-6 sm:gap-12 lg:gap-20 max-w-5xl mx-auto">
+          {allCoffees.map((coffee) => <CoffeeCard coffee={coffee} />)}
+        </div>
+      </section>
+      <Cta />
+    </main>
+  </body>
 </html>

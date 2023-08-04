@@ -1,0 +1,38 @@
+---
+// assets
+import { Image } from "astro:assets";
+
+// components
+import Heading from "./Heading.astro";
+
+// helper functions
+import { convertNumberToUSD } from "../utils";
+import type { CollectionEntry } from "astro:content";
+import Link from "./Link.astro";
+
+type Props = {
+  coffee: CollectionEntry<"coffees">;
+};
+
+const { coffee } = Astro.props;
+const { title, price, image_src, image_alt } = coffee.data;
+---
+
+<article class="grid sm:grid-cols-2 place-items-center sm:justify-between">
+  <div
+    class="max-w-sm text-center sm:text-left grid gap-2 sm:gap-4 content-center place-items-center sm:place-items-start order-1 sm:order-none"
+  >
+    <Heading tagType="h3" size={"h1"}>
+      <Link href={coffee.slug} style="ghost">
+        {title}
+      </Link>
+    </Heading>
+    <p class="text-xl sm:text-2xl md:text-4xl">
+      From {convertNumberToUSD(price)}
+    </p>
+    <Link href={coffee.slug} style="rounded">Buy Now</Link>
+  </div>
+  <Link href={coffee.slug} style="ghost">
+    <Image src={image_src} height={540} width={550} alt={image_alt} />
+  </Link>
+</article>

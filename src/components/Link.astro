@@ -1,0 +1,29 @@
+---
+import { twMerge } from "tailwind-merge";
+
+const styleOptions = {
+  rounded:
+    "rounded-full border-2 border-pine-text aspect-square w-[70px] h-[70px] grid place-items-center p-2 text-center font-sans leading-tight",
+  square: "border-2 text-pine-accent font-sans px-6 py-2 border-pine-accent",
+  ghost: "hover:text-pine-text/70 rounded",
+  link: "font-sans tracking-wider border-b-2 border-transparent hover:border-pine-text hover:scale-100",
+} as const;
+
+type Props = {
+  href: string;
+  style: keyof typeof styleOptions;
+  classes?: string;
+};
+
+const { href, style, classes } = Astro.props;
+
+const finalClasses = twMerge(
+  "font-normal ring-offset-2 focus-visible:ring-4 ring-pine-accent transition-all focus:outline-transparent hover:scale-105",
+  styleOptions[style],
+  classes
+);
+---
+
+<a href={href} class={finalClasses}>
+  <slot />
+</a>

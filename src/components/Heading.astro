@@ -1,0 +1,45 @@
+---
+import { twMerge } from "tailwind-merge";
+
+type tagOptions = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+const sizeOptions = {
+  h1: "text-4xl sm:text-5xl md:text-7xl",
+  h2: "text-3xl sm:text-4xl md:text-5xl",
+  h3: "text-2xl sm:text-3xl md:text-4xl",
+  h4: "text-2xl",
+  h5: "text-xl",
+  h6: "text-lg",
+} as const;
+
+type Props = {
+  tagType: tagOptions;
+  size: keyof typeof sizeOptions;
+  bolded?: boolean;
+  visible?: boolean;
+  classes?: string;
+};
+
+const {
+  tagType,
+  size,
+  classes,
+  visible = true,
+  bolded = true,
+  ...rest
+} = Astro.props;
+
+const Tag = tagType;
+
+const finalClasses = twMerge(
+  "font-serif",
+  sizeOptions[size],
+  bolded === true ? "font-bold" : "",
+  visible === true ? "" : "sr-only",
+  classes
+);
+---
+
+<Tag class={finalClasses} {...rest}>
+  <slot />
+</Tag>

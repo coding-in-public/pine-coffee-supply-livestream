@@ -19,3 +19,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# remove copywrited assets
+src/assets/images
+public/Brandey-Bold.woff2
